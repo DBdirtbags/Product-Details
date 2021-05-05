@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS features (
 );
 
 CREATE TABLE IF NOT EXISTS photos (
-  photo_id SERIAL PRIMARY KEY,
+  photo_id INT,
   style_id INT,
   thumbnail_url TEXT,
   url TEXT,
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS photos (
 CREATE TABLE IF NOT EXISTS skus (
   sku_id INT PRIMARY KEY,
   style_id INT,
-  size VARCHAR(3),
+  size VARCHAR(10),
   quantity INT,
   FOREIGN KEY(style_id) REFERENCES styles(style_id)
 );
@@ -54,7 +54,31 @@ CREATE TABLE IF NOT EXISTS related_ids (
   FOREIGN KEY(product_id) REFERENCES styles(style_id)
 );
 
-COPY products(product_id, name, slogan, description, category, default_price)
-FROM ''
-DELIMITER '/Users/mattsalmons/Documents/Coding Projects/CO1611/SDC/SDC Data/product.csv'
+\COPY products(product_id, name, slogan, description, category, default_price)
+FROM '/Users/mattsalmons/Documents/Coding Projects/CO1611/SDC/SDC Data/product.csv'
+DELIMITER ','
+CSV HEADER;
+
+\COPY styles(style_id, product_id, name, sale_price, original_price, default_style)
+FROM '/Users/mattsalmons/Documents/Coding Projects/CO1611/SDC/SDC Data/styles.csv'
+DELIMITER ','
+CSV HEADER;
+
+\COPY features(feature_id, product_id, feature, feature_value)
+FROM '/Users/mattsalmons/Documents/Coding Projects/CO1611/SDC/SDC Data/features.csv'
+DELIMITER ','
+CSV HEADER;
+
+\COPY photos(photo_id, style_id, thumbnail_url, url)
+FROM '/Users/mattsalmons/Documents/Coding Projects/CO1611/SDC/SDC Data/photos.csv'
+WITH (FORMAT CSV, HEADER);
+
+\COPY skus(sku_id, style_id, size, quantity)
+FROM '/Users/mattsalmons/Documents/Coding Projects/CO1611/SDC/SDC Data/skus.csv'
+DELIMITER ','
+CSV HEADER;
+
+\COPY related_ids(id, product_id, related_id)
+FROM '/Users/mattsalmons/Documents/Coding Projects/CO1611/SDC/SDC Data/related.csv'
+DELIMITER ','
 CSV HEADER;
