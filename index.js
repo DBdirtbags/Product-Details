@@ -9,18 +9,30 @@ app.use(express.json());
 
 // ROUTES //
 
-// GET products
-app.get('/products', (req, res) => {
-  db.getAllProducts((err, allProducts) => {
+// GET product
+app.get('/products/:product_id', (req, res) => {
+  console.log('PARAMS:', req.params)
+  db.getAllProducts((err, currentProduct) => {
     if (err) {
-      console.log('err gettin all products from db');
+      console.log('err getting product from db');
     } else {
-      res.send(allProducts);
+      console.log('success!')
+      res.send(currentProduct);
     }
-  });
+  }, req.params.product_id);
 })
 
 // GET styles
+app.get('/products/:product_id/styles', (req, res) => {
+  console.log('PARAMS:', req.params)
+  db.getStyles((err, currentStyles) => {
+    if (err) {
+      console.log('err getting current styles from db');
+    } else {
+      res.send(currentStyles);
+    }
+  }, req.params.product_id);
+})
 
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}!`);

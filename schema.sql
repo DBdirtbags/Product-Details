@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS products (
 );
 
 CREATE TABLE IF NOT EXISTS styles (
-  style_id integer PRIMARY KEY,
+  style_id INT PRIMARY KEY,
   product_id INT,
   name VARCHAR(255),
   sale_price VARCHAR(255),
@@ -48,9 +48,9 @@ CREATE TABLE IF NOT EXISTS skus (
 );
 
 CREATE TABLE IF NOT EXISTS related_ids (
-  id integer PRIMARY KEY,
-  product_id integer,
-  related_id integer,
+  id INT PRIMARY KEY,
+  product_id INT,
+  related_id INT,
   FOREIGN KEY(product_id) REFERENCES styles(style_id)
 );
 

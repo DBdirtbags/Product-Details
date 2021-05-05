@@ -8,8 +8,8 @@ const pool = new Pool({
   port: 5432,
 });
 
-const getAllProducts = cb =>  {
-  let queryString = 'SELECT * FROM products WHERE product_id<=10';
+const getAllProducts = (cb, product_id) =>  {
+  let queryString = `SELECT * FROM products WHERE product_id=${product_id}`;
   pool.query(queryString, (err, productsData) => {
     if (err) {
       console.log('err in getAllProducts query:', err);
@@ -19,6 +19,18 @@ const getAllProducts = cb =>  {
   });
 }
 
+const getStyles = (cb, product_id) =>  {
+  let queryString = `SELECT * FROM styles WHERE product_id=${product_id}`;
+  pool.query(queryString, (err, stylesData) => {
+    if (err) {
+      console.log('err in getStyles query:', err);
+    } else {
+      cb(null, stylesData.rows);
+    }
+  });
+}
+
 module.exports = {
-  getAllProducts
+  getAllProducts,
+  getStyles
 };
