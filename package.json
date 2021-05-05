@@ -1,10 +1,11 @@
 {
-  "name": "Product-Details",
+  "name": "product-details",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./db/queries.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon"
   },
   "repository": {
     "type": "git",
@@ -18,6 +19,8 @@
   },
   "homepage": "https://github.com/DBdirtbags/Product-Details#readme",
   "dependencies": {
-    "mysql": "^2.18.1"
+    "express": "^4.17.1",
+    "mysql": "^2.18.1",
+    "nodemon": "^2.0.7"
   }
 }
