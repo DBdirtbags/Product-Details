@@ -14,7 +14,6 @@ app.get('/', (req, res) => {
 
 // GET product
 app.get('/products/:product_id', (req, res) => {
-  // console.log('PARAMS:', req.params)
   let product;
   db.getProduct((err, currentProduct) => {
     if (err) {
@@ -34,19 +33,53 @@ app.get('/products/:product_id', (req, res) => {
   }, req.params.product_id);
 })
 
-// GET product info
-// app.get()
-
 // GET styles
 app.get('/products/:product_id/styles', (req, res) => {
-  console.log('PARAMS:', req.params)
+  let styles = {
+    product_id: req.params.product_id,
+    results: []
+  };
+
+  // get array of styles
+  // get array of photos
+  // for each style
+  //  add a photos key and set to empty array
+  //  push each photo object into photos array if style_id's match
+  // push each style into results array
   db.getStyles((err, currentStyles) => {
     if (err) {
       console.log('err getting current styles from db');
     } else {
-      res.send(currentStyles);
+      db.getPhotos((err, currentPhotos) => {
+        if (err) {
+          console.log('err getting current photos from db');
+        } else {
+          currentStyles.forEach(style => {
+            style.photos = [];
+            currentPhotos.forEach(photo => {
+              if (photo.style_id === style.style_id) {
+                style.photos.push({ thumbnail_url: photo.thumbnail_url, url: photo.url })
+                // styles.results.push(style);
+              }
+            })
+          })
+        }
+      }, req.params.product_id)
+      res.send(styles);
     }
-  }, req.params.product_id);
+
+  // db.getPhotos((err, currentPhotos) => {
+  //   let style_id;
+  //   if (err) {
+  //     console.log('err getting current photos from db');
+  //   } else {
+  //     let photos = []
+  //     currentPhotos.forEach(photo => {
+  //       photos.push({ style_id: photo.style_id, thumbnail_url: photo.thumbnail_url, url: photo.url })
+  //     })
+  //     res.send(currentPhotos);
+  //   }
+  }, req.params.product_id)
 })
 
 app.listen(port, () => {

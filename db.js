@@ -36,7 +36,6 @@ const getStyles = (cb, product_id) =>  {
 }
 
 const getFeatures = (cb, product_id) => {
-  let features = [];
   let queryString = `SELECT feature, feature_value FROM features WHERE product_id=${product_id}`;
   pool.query(queryString, (err, featuresData) => {
     if (err) {
@@ -47,8 +46,22 @@ const getFeatures = (cb, product_id) => {
   })
 }
 
+const getPhotos = (cb, style_id) => {
+  let photos = [];
+  let queryString = `SELECT * FROM photos where style_id=${style_id}`;
+
+  pool.query(queryString, (err, photosData) => {
+    if (err) {
+      console.log('err in getPhotos query:', err);
+    } else {
+      cb(null, photosData.rows);
+    }
+  })
+}
+
 module.exports = {
   getProduct,
   getStyles,
-  getFeatures
+  getFeatures,
+  getPhotos
 };
