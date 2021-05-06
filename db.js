@@ -8,7 +8,7 @@ const pool = new Pool({
   port: 5432,
 });
 
-const getAllProducts = (cb, product_id) =>  {
+const getProduct = (cb, product_id) =>  {
   let queryString = `SELECT * FROM products WHERE product_id=${product_id}`;
   pool.query(queryString, (err, productsData) => {
     if (err) {
@@ -18,6 +18,11 @@ const getAllProducts = (cb, product_id) =>  {
     }
   });
 }
+
+// const getProductInfo = (request, response) => {
+
+// }
+
 
 const getStyles = (cb, product_id) =>  {
   let queryString = `SELECT * FROM styles WHERE product_id=${product_id}`;
@@ -30,7 +35,20 @@ const getStyles = (cb, product_id) =>  {
   });
 }
 
+const getFeatures = (cb, product_id) => {
+  let features = [];
+  let queryString = `SELECT feature, feature_value FROM features WHERE product_id=${product_id}`;
+  pool.query(queryString, (err, featuresData) => {
+    if (err) {
+      console.log('err in getFeatures query:', err);
+    } else {
+      cb(null, featuresData.rows);
+    }
+  })
+}
+
 module.exports = {
-  getAllProducts,
-  getStyles
+  getProduct,
+  getStyles,
+  getFeatures
 };
