@@ -73,22 +73,22 @@ const getFeatures = (product_id, cb) => {
   })
 }
 
-// const getPhotos = (style_id, cb) => {
-//   let queryString = `SELECT * FROM photos where style_id=${style_id}`;
-//   pool.query(queryString, (err, photosData) => {
-//     if (err) {
-//       console.log('err in getPhotos query:', err);
-//     } else {
-//       cb(null, photosData.rows);
-//     }
-//   })
-// }
+const getRelated = (product_id, cb) => {
+  let queryString = `SELECT * FROM related_ids where product_id=${product_id}`;
+  pool.query(queryString, (err, relatedData) => {
+    if (err) {
+      console.log('err in getRelated query:', err);
+    } else {
+      cb(null, relatedData.rows);
+    }
+  })
+}
 
 module.exports = {
   getProduct,
   getStyles,
   getFeatures,
-  // getPhotos,
+  getRelated,
   generatePhotoPromises,
   generateSkuPromises
 };

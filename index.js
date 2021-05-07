@@ -33,6 +33,19 @@ app.get('/products/:product_id', (req, res) => {
   });
 })
 
+// GET related
+app.get('/products/:product_id/related', (req, res) => {
+  db.getRelated(req.params.product_id, (err, relatedIds) => {
+    if (err) {
+      console.log('err getting related ids from db');
+    } else {
+      let ids = []
+      relatedIds.forEach(id => ids.push(id.related_id));
+      res.send(ids);
+    }
+  })
+})
+
 //GET styles
 app.get('/products/:product_id/styles', (req, res) => {
   let styles = {
@@ -53,9 +66,6 @@ app.get('/products/:product_id/styles', (req, res) => {
           styles.results[0][index].photos = photo;
         })
       })
-      .catch(err => {
-        console.log('shite')
-      })
       .then(Promise.all(skuPromises)
       .then((skus) => {
         skus.forEach((sku, index) => {
@@ -70,9 +80,13 @@ app.get('/products/:product_id/styles', (req, res) => {
         styles.results = styles.results.flat();
         res.send(styles);
       })
+      .catch(err => {
+        console.log('err in styles promise')
+      })
     }
   })
 })
+
 
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}!`);
