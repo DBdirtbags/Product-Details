@@ -87,6 +87,11 @@ app.get('/products/:product_id/styles', (req, res) => {
   })
 })
 
+// POST to cart
+app.post('/cart', (req, res) => {
+  res.sendStatus(201);
+})
+
 
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}!`);

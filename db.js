@@ -84,6 +84,7 @@ const getRelated = (product_id, cb) => {
   })
 }
 
+
 module.exports = {
   getProduct,
   getStyles,
