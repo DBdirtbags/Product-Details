@@ -8,7 +8,7 @@ const pool = new Pool({
   port: 5432,
 });
 
-const getProduct = (cb, product_id) =>  {
+const getProduct = (product_id, cb) =>  {
   let queryString = `SELECT * FROM products WHERE product_id=${product_id}`;
   pool.query(queryString, (err, productsData) => {
     if (err) {
@@ -19,12 +19,30 @@ const getProduct = (cb, product_id) =>  {
   });
 }
 
-// const getProductInfo = (request, response) => {
+//A function which returns a promise, which resolves to a db query
+const queryPromise = function(queryString) {
+  return new Promise((resolve, reject) => {
+    pool.query(queryString, (err, data) => {
+      if (err) {
+        return reject(err);
+      } else {
+        return resolve(data.rows);
+      }
+    });
+  });
+}
 
-// }
+//A function to generate an array of photo query promises
+const generatePhotoPromises = function(styles) {
+  var promiseArray = [];
+  for (let x = 0; x < styles.length; x++) {
+    let queryString = `SELECT * FROM photos where style_id=${styles[x].style_id}`;
+    promiseArray.push(queryPromise(queryString));
+  }
+  return promiseArray;
+}
 
-
-const getStyles = (cb, product_id) =>  {
+const getStyles = (product_id, cb) =>  {
   let queryString = `SELECT * FROM styles WHERE product_id=${product_id}`;
   pool.query(queryString, (err, stylesData) => {
     if (err) {
@@ -35,7 +53,7 @@ const getStyles = (cb, product_id) =>  {
   });
 }
 
-const getFeatures = (cb, product_id) => {
+const getFeatures = (product_id, cb) => {
   let queryString = `SELECT feature, feature_value FROM features WHERE product_id=${product_id}`;
   pool.query(queryString, (err, featuresData) => {
     if (err) {
@@ -46,10 +64,8 @@ const getFeatures = (cb, product_id) => {
   })
 }
 
-const getPhotos = (cb, style_id) => {
-  let photos = [];
+const getPhotos = (style_id, cb) => {
   let queryString = `SELECT * FROM photos where style_id=${style_id}`;
-
   pool.query(queryString, (err, photosData) => {
     if (err) {
       console.log('err in getPhotos query:', err);
@@ -63,5 +79,6 @@ module.exports = {
   getProduct,
   getStyles,
   getFeatures,
-  getPhotos
+  getPhotos,
+  generatePhotoPromises
 };
