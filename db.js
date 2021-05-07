@@ -36,7 +36,16 @@ const queryPromise = function(queryString) {
 const generatePhotoPromises = function(styles) {
   var promiseArray = [];
   for (let x = 0; x < styles.length; x++) {
-    let queryString = `SELECT * FROM photos where style_id=${styles[x].style_id}`;
+    let queryString = `SELECT * FROM photos WHERE style_id=${styles[x].style_id}`;
+    promiseArray.push(queryPromise(queryString));
+  }
+  return promiseArray;
+}
+
+const generateSkuPromises = function(styles) {
+  var promiseArray = [];
+  for (let x = 0; x < styles.length; x++) {
+    let queryString = `SELECT * FROM skus WHERE style_id=${styles[x].style_id}`;
     promiseArray.push(queryPromise(queryString));
   }
   return promiseArray;
@@ -64,21 +73,22 @@ const getFeatures = (product_id, cb) => {
   })
 }
 
-const getPhotos = (style_id, cb) => {
-  let queryString = `SELECT * FROM photos where style_id=${style_id}`;
-  pool.query(queryString, (err, photosData) => {
-    if (err) {
-      console.log('err in getPhotos query:', err);
-    } else {
-      cb(null, photosData.rows);
-    }
-  })
-}
+// const getPhotos = (style_id, cb) => {
+//   let queryString = `SELECT * FROM photos where style_id=${style_id}`;
+//   pool.query(queryString, (err, photosData) => {
+//     if (err) {
+//       console.log('err in getPhotos query:', err);
+//     } else {
+//       cb(null, photosData.rows);
+//     }
+//   })
+// }
 
 module.exports = {
   getProduct,
   getStyles,
   getFeatures,
-  getPhotos,
-  generatePhotoPromises
+  // getPhotos,
+  generatePhotoPromises,
+  generateSkuPromises
 };
