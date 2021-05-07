@@ -92,7 +92,7 @@ app.post('/cart', (req, res) => {
   res.sendStatus(201);
 })
 
-
+// SERVER SPIN UP
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}!`);
 })
