@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS related_ids (
 );
 CREATE INDEX related_id_index ON related_ids (product_id);
 
-
+-- SEED DB
 \COPY products(product_id, name, slogan, description, category, default_price)
 FROM '/Users/mattsalmons/Documents/Coding Projects/CO1611/SDC/SDC Data/product.csv'
 DELIMITER ','

@@ -14,34 +14,34 @@ app.get('/', (req, res) => {
 })
 
 // GET product
-// app.get('/products/:product_id', (req, res) => {
-//   let product;
-//   db.getProduct(req.params.product_id, (err, currentProduct) => {
-//     if (err) {
-//       console.log('err getting product from db');
-//     } else {
-//       product = currentProduct[0]
-//       db.getFeatures(req.params.product_id, (err, currentFeatures) => {
-//         if (err) {
-//           console.log('err getting features from db')
-//         } else {
-//           product.features = [];
-//           currentFeatures.forEach(feature => product.features.push(feature));
-//          res.send(product);
-//         }
-//       })
-//     }
-//   });
-// })
 app.get('/products/:product_id', (req, res) => {
+  let product;
   db.getProduct(req.params.product_id, (err, currentProduct) => {
     if (err) {
-      console.log('err');
+      console.log('err getting product from db');
     } else {
-      res.send(currentProduct[0])
+      product = currentProduct[0]
+      db.getFeatures(req.params.product_id, (err, currentFeatures) => {
+        if (err) {
+          console.log('err getting features from db')
+        } else {
+          product.features = [];
+          currentFeatures.forEach(feature => product.features.push(feature));
+         res.send(product);
+        }
+      })
     }
-  })
+  });
 })
+// app.get('/products/:product_id', (req, res) => {
+//   db.getProduct(req.params.product_id, (err, currentProduct) => {
+//     if (err) {
+//       console.log('err');
+//     } else {
+//       res.send(currentProduct[0])
+//     }
+//   })
+// })
 
 // GET related
 app.get('/products/:product_id/related', (req, res) => {
@@ -100,6 +100,11 @@ app.get('/products/:product_id/styles', (req, res) => {
 // POST to cart
 app.post('/cart', (req, res) => {
   res.sendStatus(201);
+})
+
+// GET from cart
+app.get('/cart', (req, res) => {
+  res.sendStatus(200);
 })
 
 module.exports = app;

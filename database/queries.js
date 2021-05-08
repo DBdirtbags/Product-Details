@@ -1,24 +1,7 @@
 const pool = require('./db.js')
-// const getProduct = (product_id, cb) =>  {
-//   let queryString = `SELECT * FROM products WHERE product_id=${product_id}`;
-//   pool.query(queryString, (err, productsData) => {
-//     if (err) {
-//       console.log('err in getAllProducts query:', err);
-//     } else {
-//       cb(null, productsData.rows);
-//     }
-//   });
-// }
 
 const getProduct = (product_id, cb) =>  {
-  let queryString = `
-  SELECT product_id, name, slogan, description, category, default_price,
-  jsonb_agg (jsonb_build_object('feature', features.feature, 'value', features.feature_value)) features
-  FROM products
-  INNER JOIN features USING (product_id)
-  WHERE product_id=${product_id}
-  GROUP BY product_id;
-  `;
+  let queryString = `SELECT * FROM products WHERE product_id=${product_id}`;
   pool.query(queryString, (err, productsData) => {
     if (err) {
       console.log('err in getAllProducts query:', err);
@@ -27,6 +10,24 @@ const getProduct = (product_id, cb) =>  {
     }
   });
 }
+
+// const getProduct = (product_id, cb) =>  {
+//   let queryString = `
+//   SELECT product_id, name, slogan, description, category, default_price,
+//   jsonb_agg (jsonb_build_object('feature', features.feature, 'value', features.feature_value)) features
+//   FROM products
+//   INNER JOIN features USING (product_id)
+//   WHERE product_id=${product_id}
+//   GROUP BY product_id;
+//   `;
+//   pool.query(queryString, (err, productsData) => {
+//     if (err) {
+//       console.log('err in getAllProducts query:', err);
+//     } else {
+//       cb(null, productsData.rows);
+//     }
+//   });
+// }
 
 //A function which returns a promise, which resolves to a db query
 const queryPromise = function(queryString) {
