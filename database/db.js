@@ -8,4 +8,8 @@ const pool = new Pool({
   port: 5432,
 });
 
+pool.connect(() => {
+  console.log('Connected to PG database')
+})
+
 module.exports = pool;
