@@ -1,6 +1,6 @@
-DROP DATABASE IF EXISTS product_details
+DROP DATABASE IF EXISTS sdc
 
-CREATE DATABASE product_details
+CREATE DATABASE sdc
 
 -- \c into database
 
@@ -12,7 +12,6 @@ CREATE TABLE IF NOT EXISTS products (
   category VARCHAR(25),
   default_price VARCHAR(255)
 );
-CREATE INDEX product_id_index ON products (product_id);
 
 CREATE TABLE IF NOT EXISTS styles (
   style_id INT PRIMARY KEY,
@@ -23,7 +22,6 @@ CREATE TABLE IF NOT EXISTS styles (
   default_style boolean,
   FOREIGN KEY(product_id) REFERENCES products(product_id);
 );
-CREATE INDEX styles_id_index ON styles (product_id);
 
 CREATE TABLE IF NOT EXISTS features (
   feature_id INT PRIMARY KEY,
@@ -32,7 +30,6 @@ CREATE TABLE IF NOT EXISTS features (
   feature_value VARCHAR(50),
   FOREIGN KEY(product_id) REFERENCES products(product_id);
 );
-CREATE INDEX features_id_index ON features (product_id);
 
 CREATE TABLE IF NOT EXISTS photos (
   photo_id INT,
@@ -41,7 +38,6 @@ CREATE TABLE IF NOT EXISTS photos (
   url TEXT,
   FOREIGN KEY(style_id) REFERENCES styles(style_id)
 );
-CREATE INDEX photo_id_index ON photos (style_id);
 
 CREATE TABLE IF NOT EXISTS skus (
   sku_id INT PRIMARY KEY,
@@ -50,7 +46,6 @@ CREATE TABLE IF NOT EXISTS skus (
   quantity INT,
   FOREIGN KEY(style_id) REFERENCES styles(style_id)
 );
-CREATE INDEX sku_id_index ON skus (style_id);
 
 CREATE TABLE IF NOT EXISTS related_ids (
   id INT PRIMARY KEY,
@@ -58,6 +53,14 @@ CREATE TABLE IF NOT EXISTS related_ids (
   related_id INT,
   FOREIGN KEY(product_id) REFERENCES styles(style_id)
 );
+
+
+-- Create indexes
+CREATE INDEX product_id_index ON products (product_id);
+CREATE INDEX styles_id_index ON styles (product_id);
+CREATE INDEX features_id_index ON features (product_id);
+CREATE INDEX photo_id_index ON photos (style_id);
+CREATE INDEX sku_id_index ON skus (style_id);
 CREATE INDEX related_id_index ON related_ids (product_id);
 
 -- SEED DB
