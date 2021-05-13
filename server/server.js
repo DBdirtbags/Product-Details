@@ -13,8 +13,8 @@ app.get('/', (req, res) => {
   res.json( {message: 'hello world!'} );
 })
 
-app.get('/loaderio-dada4389ddc61adcc5b4d9d4a2cf2eb0', (req, res) => {
-  res.send('loaderio-dada4389ddc61adcc5b4d9d4a2cf2eb0');
+app.get('/loaderio-c9c5a7cbf840d7b5cab63f29b264eac3', (req, res) => {
+  res.send('loaderio-c9c5a7cbf840d7b5cab63f29b264eac3');
 })
 
 // GET product
