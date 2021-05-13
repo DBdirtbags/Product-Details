@@ -13,6 +13,10 @@ app.get('/', (req, res) => {
   res.json( {message: 'hello world!'} );
 })
 
+app.get('/loaderio-dada4389ddc61adcc5b4d9d4a2cf2eb0', (req, res) => {
+  res.send('loaderio-dada4389ddc61adcc5b4d9d4a2cf2eb0');
+})
+
 // GET product
 app.get('/products/:product_id', (req, res) => {
   let product;
@@ -33,15 +37,6 @@ app.get('/products/:product_id', (req, res) => {
     }
   });
 })
-// app.get('/products/:product_id', (req, res) => {
-//   db.getProduct(req.params.product_id, (err, currentProduct) => {
-//     if (err) {
-//       console.log('err');
-//     } else {
-//       res.send(currentProduct[0])
-//     }
-//   })
-// })
 
 // GET related
 app.get('/products/:product_id/related', (req, res) => {
@@ -70,7 +65,13 @@ app.get('/products/:product_id/styles', (req, res) => {
       let photoPromises = db.generatePhotoPromises(currentStyles)
       let skuPromises = db.generateSkuPromises(currentStyles)
       styles.results.push(currentStyles);
-      Promise.all(skuPromises)
+      Promise.all(photoPromises)
+      .then((photos) => {
+        photos.forEach((photo, index) => {
+          styles.results[0][index].photos = photo;
+        })
+      })
+      .then(Promise.all(skuPromises)
       .then((skus) => {
         skus.forEach((sku, index) => {
           let skuObj = {}
@@ -80,12 +81,8 @@ app.get('/products/:product_id/styles', (req, res) => {
           styles.results[0][index].skus = skuObj;
         })
       })
-      .then(Promise.all(photoPromises)
-      .then((photos) => {
-        photos.forEach((photo, index) => {
-          styles.results[0][index].photos = photo;
-        })
-      }))
+
+      )
       .then(() => {
         styles.results = styles.results.flat();
         res.send(styles);
