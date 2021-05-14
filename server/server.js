@@ -44,7 +44,6 @@ app.get('/products/:product_id/related', (req, res) => {
 })
 
 app.get('/products/:product_id/styles', (req, res) => {
-  console.log('REQ:', req.params.product_id)
   db.getStyles(req.params.product_id, (err, stylesData) => {
     if (err) {
       console.log('err getting related ids from db');

@@ -24,9 +24,9 @@ const getStyles = (product_id, cb) =>  {
     jsonb_agg (distinct jsonb_build_object('thumbnail_url', photos.thumbnail_url, 'url', photos.url)) photos,
     jsonb_agg (distinct jsonb_build_object('sku_id',skus.sku_id,'size',skus.size,'quantity', skus.quantity)) skus
     FROM styles
-    INNER JOIN photos ON styles.style_id = photos.style_id
-    INNER JOIN skus ON styles.style_id = skus.style_id
-    WHERE product_id=${product_id}
+    LEFT JOIN skus ON styles.style_id = skus.style_id
+    LEFT JOIN photos ON styles.style_id = photos.style_id
+    WHERE product_id = ${product_id}
     GROUP BY styles.style_id
   `;
   pool.query(queryString, (err, stylesData) => {

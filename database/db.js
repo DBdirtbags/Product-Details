@@ -1,7 +1,7 @@
 const { Pool } = require('pg');
 const pass = require('./config.js')
 const port = 5432
-const ip = '3.143.188.240'
+const ip = '13.59.11.196'
 
 const pool = new Pool({
   user: 'postgres',
