@@ -1,5 +1,5 @@
 # Product Details API for Threads 
-This repository contains code for building the back-end services required for product Question/Answer data for Project Catwalk. Specifically, this repository will allow for the creation of Docker containers running Express servers as well as a MongoDB containing the Q&A data. 
+This repository contains code for building the back-end services required for product Product Details data for Threads. Specifically, this repository will allow for the creation of Docker containers running Express servers as well as a PostgreSQL database containing the Product Details data. 
 
 ## Motivation
 This project was implemented to allow for scaling on AWS as web traffic to the Threads site increases. 
@@ -17,7 +17,7 @@ This project was implemented to allow for scaling on AWS as web traffic to the T
 
 ## Installation
 ### Local Machine:
-Pre-requisites: Have MongoDB and Docker installed ono your computer
+Pre-requisites: Have PostgreSQL and Docker installed on your computer
 1) After cloning the repo locally, `npm install`
 2) From the main project directory, `docker-compose up`
 
