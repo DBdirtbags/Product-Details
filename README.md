@@ -7,7 +7,7 @@ This project was implemented to allow for scaling on AWS as web traffic to the T
 ## Tech/framework used
 <b>Built with:</b>
 - Express
-- PostgresQL
+- PostgreSQL
 - Docker
 - AWS (EC2, Application load balancer)
 
